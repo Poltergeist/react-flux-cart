@@ -1,7 +1,7 @@
 {
-  "name": "flux-pricing",
+  "name": "flux-shadowrun",
   "version": "0.0.1",
-  "description": "Pricing component with flux",
+  "description": "",
   "main": "js/app.js",
   "dependencies": {
     "flux": "^2.0.0",
@@ -9,17 +9,25 @@
     "underscore": "^1.7.0"
   },
   "devDependencies": {
+    "autoprefixer-stylus": "^0.7.0",
     "browserify": "~6.2.0",
     "envify": "~3.0.0",
+    "jade": "^1.11.0",
+    "parallelshell": "^1.1.1",
     "react": "^0.12.0",
     "reactify": "^0.15",
+    "stylus": "^0.51.1",
     "watchify": "~2.1.0"
   },
   "scripts": {
-    "start": "watchify -o js/bundle.js -v -d .",
-    "build": "browserify . | uglifyjs -cm > js/bundle.min.js"
+    "start": "parallelshell 'npm run watch' 'http-server'",
+    "build": "browserify . | uglifyjs -cm > js/bundle.min.js",
+    "watch" : "parallelshell 'npm run watch:css' 'npm run watch:jade' 'npm run watch:js'",
+    "watch:css": "stylus --inline --watch --sourcemap-inline -u autoprefixer-stylus stylus/main.styl -o css",
+    "watch:jade": "jade -H -w jade/ jade/ -o ./",
+    "watch:js": "watchify -o js/bundle.js -v -d ."
   },
-  "author": "Ken Wheeler",
+  "author": "Poltergeist",
   "browserify": {
     "transform": [
       "reactify",
